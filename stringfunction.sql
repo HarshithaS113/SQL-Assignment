@@ -166,8 +166,7 @@ SELECT ABS(799 - 650)
 FROM dual;
 
 -- 14. Calculate sales growth percentage
-SELECT ((1500-1000)/1000)*100 
-FROM dual;
+
 
 -- 15. Random number between 1 and 100
 SELECT ROUND(DBMS_RANDOM.VALUE(1,100)) 
@@ -190,6 +189,7 @@ SELECT ROUND(Unit_Price)
 FROM Orders;
 
 -- 20. Calculate compound interest
+
 
 
 
