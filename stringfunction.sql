@@ -192,6 +192,187 @@ FROM Orders;
 
 
 
+--date functions
+
+--1)Extract Year from Order_Date
+SELECT EXTRACT(YEAR FROM Order_Date) AS Year
+FROM Orders;
+
+--2)Extract Month from Order_Date
+select extract(month from order_date) as month
+from orders;
+
+--3)extract day from order_date
+select extract(day from order_date) as day
+from orders;
+
+--4)find current date
+select sysdate 
+from dual;
+
+--5)find current timestamp
+select systimestamp 
+from dual;
+
+--6)add 7 days to order_date
+select order_date + 7 as new_date
+from orders;
+
+--7)subtract 30 days from order
+select order_date - 30 as new_date
+from orders;
+
+--8)difference between 2 dates
+select sysdate - order_date as differnce_date
+from orders;
+
+--9)months between 2 dates
+select months_between(sysdate , order_date)
+from orders;
+
+--10) last day of month
+select last_day(order_date)
+from orders;
+
+--11)GET FIRST DAY OF YEAR
+select trunc(order_date, 'year')
+from orders;
+
+--12) formate date
+select to_char(order_date,'dd/mm/yyyy')
+from orders;
+
+--13) string to date
+select to_date('25/02/2026' , 'dd/mm/yyyy')
+from orders;
+
+--14)date to string
+select to_char(order_date, 'dd-mm-yyyy')
+from orders;
+
+--15) week number of year
+select to_char(order_date,'ww')
+from orders;
+
+--16) day number from date
+select to_char(order_date,'dd')
+from orders;
+
+--17)quater of year
+select to_char(order_date,'q')
+from orders;
+
+--18)calculate age from dob
+SELECT FLOOR(MONTHS_BETWEEN(SYSDATE, DOB)/12) AS Age
+FROM orders;
+
+ALTER TABLE Orders
+ADD DOB DATE;
+
+update Orders
+set DOB = to_date('15-08-2000','DD-MM-YYYY')
+where Order_id = 1;
+
+--19)check weekend 
+select case when to_char(order_date,'dy','nls_date_language=english')
+in('sat','sun')
+then('weekend')
+end as day_type
+from orders;
+
+--20)next monday after order_date
+select  next_day(order_Date,'MONDAY')
+from orders;
+
+
+
+--NULL FUNCTION
+
+
+--1)Replace NULL price with 0
+select nvl(unit_price,0) as price
+from orders;
+
+--2)Replace NULL Customer_Name with 'Unknown'
+select nvl(customer_name,'unknown')
+from orders;
+
+--3)Count NULL values in Product_Name
+select count(*) as null_count
+from orders
+where product_name is null;
+
+--4)Find rows where Order_Date is NULL
+select * from orders where order_date is null;
+
+--5)Use COALESCE to return first non-null value
+select coalesce(customer_name,product_name,'no data')
+from orders;
+
+--6)Use NVL to replace NULL
+select nvl(product_name,'not avaliable')
+from orders;
+
+--7)Use IFNULL function
+select nvl(unit_price,0)
+from orders;
+
+--8)check if column is null
+select * from orders where unit_price is null;
+
+--9)check if column is not null
+select * from orders where unit_price is not null
+
+--10)use nullif between 2 columns
+select nullif(quantity, unit_price)
+from orders;
+
+--11) replace blank value as null
+select nullif(customer_name,'')
+from orders;
+
+--12)Count non-NULL values
+select count(unit_price)
+from orders;
+
+--13)filter records where price is null or 0
+select *from orders where unit_price is null or unit_price = 0
+ 
+--14)use case to handle null
+select case 
+when customer_name is Null
+then 'unknown' else customer_name
+end as customer
+from orders;
+
+--15)Compare NULL values properly 
+where unit_price is null
+
+--16)handle null in aggregation
+--sum handling null
+SELECT SUM(NVL(Unit_Price,0)) AS Total_Price
+FROM Orders;
+--avg halndling null
+select avg(nvl(unit_price,0)) as avg_price
+from orders;
+--count imcluding null 
+select count(nvl(unit_price,0))
+from orders;
+
+--17) average excluding null values
+select avg(unit_price)
+from orders;
+
+--18)sum ignoring null values
+select sum(unit_price)
+from orders;
+
+--19) identify columns containg null
+select column_name from user_tab_columns where table_name = 'orders' and nullable = 'y';
+
+--20) convert null to default system date
+select nvl(order_date,sysdate) as order_date
+from orders;
 
 
 
